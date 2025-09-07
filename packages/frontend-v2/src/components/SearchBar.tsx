@@ -3,16 +3,34 @@
 import { HiSearch, HiAdjustments } from 'react-icons/hi';
 import { useEffect, useState } from 'react';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { SCHOOL } from '@qrent/shared/enum';
 
-export default function SearchBar({ initialQuery }: { initialQuery: string }) {
+const BEDROOM_OPTIONS = [
+  { value: '', label: 'Any bedrooms' },
+  { value: '1', label: '1 bedroom' },
+  { value: '2', label: '2 bedrooms' },
+  { value: '3', label: '3 bedrooms' },
+  { value: '4', label: '4 bedrooms' },
+  { value: '5', label: '5+ bedrooms' },
+] as const;
+
+export default function SearchBar() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const [value, setValue] = useState(initialQuery);
 
+  // First-level filter states
+  const [targetSchool, setTargetSchool] = useState<string>('UNSW');
+  const [maxPrice, setMaxPrice] = useState<string>('');
+  const [commuteTime, setCommuteTime] = useState<string>('');
+  const [numBedrooms, setNumBedrooms] = useState<string>('');
+
+  // Initialize first-level filters from URL parameters
   useEffect(() => {
-    const qFromUrl = searchParams.get('q') || '';
-    setValue(qFromUrl);
+    setTargetSchool(searchParams.get('university') || 'UNSW');
+    setMaxPrice(searchParams.get('priceMax') || '');
+    setCommuteTime(searchParams.get('commutingMax') || '');
+    setNumBedrooms(searchParams.get('bedroomsMax') || '');
   }, [searchParams]);
 
   useEffect(() => {
@@ -23,118 +41,146 @@ export default function SearchBar({ initialQuery }: { initialQuery: string }) {
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const params = new URLSearchParams(searchParams.toString());
-    if (value) params.set('q', value);
-    else params.delete('q');
+
+    // Set first-level filter parameters
+    const setOrDelete = (key: string, val: string) => {
+      if (val && val.trim() !== '') params.set(key, val);
+      else params.delete(key);
+    };
+
+    setOrDelete('university', targetSchool);
+    setOrDelete('priceMax', maxPrice);
+    setOrDelete('commutingMax', commuteTime);
+    setOrDelete('bedroomsMax', numBedrooms);
+
     params.set('page', '1');
     router.push(`/search?${params.toString()}`);
   };
 
   return (
     <form onSubmit={onSubmit} className="w-full">
-      <div className="rounded-2xl bg-white shadow-card ring-1 ring-slate-200 p-2 md:p-3">
-        <div className="flex flex-col gap-2 md:grid md:grid-cols-[1fr_auto_auto] md:items-center">
-          <label htmlFor="search-input" className="sr-only">
-            Search rentals
-          </label>
-          <div className="relative">
-            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">
-              <HiSearch className="h-5 w-5" />
-            </span>
-            <input
-              id="search-input"
-              name="q"
-              value=""
-              disabled
-              placeholder="🤖 AI-powered search coming soon..."
-              className="w-full rounded-xl border border-slate-200 pl-10 pr-4 py-3 text-slate-500 placeholder-slate-500 bg-slate-50 cursor-not-allowed opacity-75"
-            />
-            <div className="absolute inset-0 rounded-xl bg-slate-50/80 flex items-center justify-center pointer-events-none">
-              <div className="bg-amber-100 border border-amber-200 text-amber-800 px-3 py-1 rounded-lg text-sm font-medium text-center">
-                🔧 Adding Features<br/>
-                <span className="text-xs">Filter & Search still work!</span>
-              </div>
-            </div>
+      <div className="rounded-2xl bg-white shadow-card ring-1 ring-slate-200 p-4 md:p-5">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-4">
+          {/* Target School */}
+          <div className="flex flex-col flex-1">
+            <label
+              htmlFor="target-school"
+              className="text-xs font-medium text-slate-700 mb-1 h-4 flex items-center"
+            >
+              Target School
+            </label>
+            <select
+              id="target-school"
+              value={targetSchool}
+              onChange={e => setTargetSchool(e.target.value)}
+              className="rounded-lg border border-slate-200 px-2.5 py-2 text-sm text-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none h-9"
+            >
+              {Object.values(SCHOOL).map(school => (
+                <option key={school} value={school}>
+                  {school}
+                </option>
+              ))}
+            </select>
           </div>
-          <button
-            type="button"
-            onClick={() => {
-              const params = new URLSearchParams(searchParams.toString());
-              if (pathname === '/search') {
-                params.set('filters', 'open');
-                router.replace(`/search?${params.toString()}`);
-              } else {
-                params.set('filters', 'open');
-                const href = params.toString() ? `${pathname}?${params.toString()}` : pathname;
-                router.replace(href);
-              }
-            }}
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 font-medium text-slate-700 hover:border-blue-300 hover:text-blue-600 transition"
-          >
-            <HiAdjustments className="h-5 w-5" />
-            Filter
-          </button>
-          <button
-            type="submit"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700 transition"
-          >
-            <HiSearch className="h-5 w-5" />
-            Search
-          </button>
-        </div>
-      </div>
-      <p className="mt-2 text-sm text-slate-600 text-center">
-        Text input temporarily disabled while adding AI features. Use Filter or Search to browse
-        properties.
-      </p>
-    </form>
-  );
 
-  return (
-    <form onSubmit={onSubmit} className="w-full">
-      <div className="rounded-2xl bg-white shadow-card ring-1 ring-slate-200 p-2 md:p-3">
-        <div className="flex flex-col gap-2 md:grid md:grid-cols-[1fr_auto_auto] md:items-center">
-          <label htmlFor="search-input" className="sr-only">
-            Search rentals
-          </label>
-          <div className="relative">
-            <span className="pointer-events-none absolute inset-y-0 left-3 flex items-center text-slate-400">
-              <HiSearch className="h-5 w-5" />
-            </span>
+          {/* Max Price */}
+          <div className="flex flex-col flex-1">
+            <label
+              htmlFor="max-price"
+              className="text-xs font-medium text-slate-700 mb-1 h-4 flex items-center"
+            >
+              Max Price ($/week)
+            </label>
             <input
-              id="search-input"
-              name="q"
-              value={value}
-              onChange={e => setValue(e.target.value)}
-              placeholder="Enter location, property type..."
-              className="w-full rounded-xl border border-slate-200 pl-10 pr-4 py-3 text-slate-700 placeholder-slate-400 focus:border-brand focus:ring-brand focus:outline-none"
+              id="max-price"
+              type="number"
+              min="0"
+              value={maxPrice}
+              onChange={e => setMaxPrice(e.target.value)}
+              placeholder="Any"
+              className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none h-9"
             />
           </div>
+
+          {/* Commute Time */}
+          <div className="flex flex-col flex-1">
+            <label
+              htmlFor="commute-time"
+              className="text-xs font-medium text-slate-700 mb-1 h-4 flex items-center"
+            >
+              Max Commute (min)
+            </label>
+            <input
+              id="commute-time"
+              type="number"
+              min="0"
+              value={commuteTime}
+              onChange={e => setCommuteTime(e.target.value)}
+              placeholder="Any"
+              className="rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-700 placeholder-slate-400 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none h-9"
+            />
+          </div>
+
+          {/* Number of Bedrooms */}
+          <div className="flex flex-col flex-1">
+            <label
+              htmlFor="num-bedrooms"
+              className="text-xs font-medium text-slate-700 mb-1 h-4 flex items-center"
+            >
+              Bedrooms
+            </label>
+            <select
+              id="num-bedrooms"
+              value={numBedrooms}
+              onChange={e => setNumBedrooms(e.target.value)}
+              className="rounded-lg border border-slate-200 px-2.5 py-2 text-sm text-slate-700 focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none h-9"
+            >
+              {BEDROOM_OPTIONS.map(option => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Filter Button */}
           <button
             type="button"
             onClick={() => {
               const params = new URLSearchParams(searchParams.toString());
+
+              // Set first-level filter values before opening modal
+              const setOrDelete = (key: string, val: string) => {
+                if (val && val.trim() !== '') params.set(key, val);
+                else params.delete(key);
+              };
+
+              setOrDelete('university', targetSchool);
+              setOrDelete('priceMax', maxPrice);
+              setOrDelete('commutingMax', commuteTime);
+              setOrDelete('bedroomsMax', numBedrooms);
+
               if (pathname === '/search') {
-                // Open on search page by updating the same URL
                 params.set('filters', 'open');
                 router.replace(`/search?${params.toString()}`);
               } else {
-                // Open modal on current page (landing) without navigating
-                if (value) params.set('q', value);
                 params.set('filters', 'open');
                 const href = params.toString() ? `${pathname}?${params.toString()}` : pathname;
                 router.replace(href);
               }
             }}
-            className="inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-3 font-medium text-slate-700 hover:border-blue-300 hover:text-blue-600 transition"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-sm font-medium text-slate-700 hover:border-blue-300 hover:text-blue-600 transition flex-shrink-0"
           >
-            <HiAdjustments className="h-5 w-5" />
+            <HiAdjustments className="h-4 w-4" />
             Filter
           </button>
+
+          {/* Search Button */}
           <button
             type="submit"
-            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-3 font-semibold text-white hover:bg-blue-700 transition"
+            className="inline-flex items-center justify-center gap-1.5 rounded-xl bg-blue-600 px-2 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 transition flex-shrink-0"
           >
-            <HiSearch className="h-5 w-5" />
+            <HiSearch className="h-4 w-4" />
             Search
           </button>
         </div>

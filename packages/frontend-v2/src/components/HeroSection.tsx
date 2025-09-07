@@ -21,9 +21,9 @@ export default function HeroSection() {
 
           {/* Search bar overlay */}
           <div className="absolute inset-0 flex items-center justify-center px-4">
-            <div className="w-full max-w-3xl">
+            <div className="w-full max-w-4xl">
               <Suspense fallback={<div className="h-16 bg-white/80 backdrop-blur rounded-2xl animate-pulse" />}>
-                <SearchBar initialQuery="" />
+                <SearchBar />
               </Suspense>
             </div>
           </div>

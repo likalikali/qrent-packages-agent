@@ -22,7 +22,6 @@ export default function PropertyCard({
   bedroomCount,
   bathroomCount,
   propertyType,
-  descriptionEn,
   commuteTime,
   url,
   averageScore,
@@ -52,7 +51,7 @@ export default function PropertyCard({
   };
 
   const keywordList = keywords.trim() 
-    ? keywords.split(' ').filter(Boolean).slice(0, 20)
+    ? keywords.split(' ').filter(Boolean).slice(0, 10)
     : [];
 
   const content = (
