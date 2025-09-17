@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { HiX } from 'react-icons/hi';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
@@ -14,6 +14,11 @@ interface AuthModalProps {
 export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: AuthModalProps) {
   const [mode, setMode] = useState<'login' | 'signup'>(initialMode);
 
+  // Update mode when initialMode changes
+  useEffect(() => {
+    setMode(initialMode);
+  }, [initialMode]);
+
   if (!isOpen) return null;
 
   const handleSuccess = () => {
@@ -23,15 +28,15 @@ export default function AuthModal({ isOpen, onClose, initialMode = 'login' }: Au
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto">
       {/* Backdrop */}
-      <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose} />
-      
+      <div className="fixed inset-0 bg-white bg-opacity-70" onClick={onClose} />
+
       {/* Modal */}
       <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+        <div className="relative bg-white rounded-lg shadow-xl max-w-md w-full">
           {/* Close button */}
           <button
             onClick={onClose}
-            className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 z-10"
+            className="absolute top-12 right-4 text-gray-400 hover:text-gray-600 z-10"
             aria-label="Close modal"
           >
             <HiX className="h-6 w-6" />
