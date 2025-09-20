@@ -5,7 +5,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import { HiX } from 'react-icons/hi'
 import { PROPERTY_TYPE } from '@qrent/shared/enum'
 
-const UNIVERSITY_OPTIONS = ['UNSW', 'UTS', 'USYD'] as const
+// const UNIVERSITY_OPTIONS = ['UNSW', 'UTS', 'USYD'] as const
 const PROPERTY_TYPES = [
   { key: PROPERTY_TYPE.House, label: 'House' },
   { key: PROPERTY_TYPE.Apartment, label: 'Apartment' },

@@ -49,7 +49,15 @@ export default function SearchResults({ searchParams }: { searchParams: SearchPa
       minRating: searchParams.rating ? Number(searchParams.rating) : undefined,
       propertyType: searchParams.propertyType ? Number(searchParams.propertyType) : undefined,
       regions,
-      moveInDate: searchParams.moveInDate ? new Date(searchParams.moveInDate) : undefined,
+      moveInDate: searchParams.moveInDate ? (() => {
+        const dateStr = searchParams.moveInDate;
+        // Ensure the date string is in YYYY-MM-DD format
+        if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) {
+          // Send as ISO string - backend will handle the conversion
+          return dateStr + 'T00:00:00.000Z' as Date | string;
+        }
+        return undefined;
+      })() : undefined,
       orderBy: [{
         averageScore: 'desc' as const,
       }]
@@ -118,6 +126,7 @@ export default function SearchResults({ searchParams }: { searchParams: SearchPa
                       url={property.url}
                       averageScore={property.averageScore}
                       keywords={property.keywords}
+                      availableDate={property.availableDate}
                     />
                   ))}
                 </div>

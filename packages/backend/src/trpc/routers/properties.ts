@@ -35,8 +35,8 @@ const propertyOrderBySchema = z
 // Preference input schema based on Prisma model
 const preferenceSchema = z.object({
   targetSchool: z.string().max(100),
-  minPrice: z.number().int().positive().optional(),
-  maxPrice: z.number().int().positive().optional(),
+  minPrice: z.number().int().nonnegative().optional(),
+  maxPrice: z.number().int().nonnegative().optional(),
   minBedrooms: z.number().int().min(0).max(255).optional(),
   maxBedrooms: z.number().int().min(0).max(255).optional(),
   minBathrooms: z.number().int().min(0).max(255).optional(),
@@ -50,9 +50,19 @@ const preferenceSchema = z.object({
     .optional(),
   propertyType: z.number().int().min(1).max(2).optional(), // 1: House, 2: Apartment
   minRating: z.number().optional(),
-  minCommuteTime: z.number().int().positive().optional(),
-  maxCommuteTime: z.number().int().positive().optional(),
-  moveInDate: z.date().optional(),
+  minCommuteTime: z.number().int().nonnegative().optional(),
+  maxCommuteTime: z.number().int().nonnegative().optional(),
+  moveInDate: z
+    .union([
+      z.date(),
+      z.string().refine(val => !isNaN(Date.parse(val)), {
+        message: 'Invalid date string',
+      }),
+    ])
+    .transform(val => {
+      return typeof val === 'string' ? new Date(val) : val;
+    })
+    .optional(),
 });
 
 export const propertiesRouter = t.router({

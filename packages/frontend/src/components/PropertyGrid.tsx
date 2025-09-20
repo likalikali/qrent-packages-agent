@@ -122,6 +122,7 @@ export default function PropertyGrid() {
             url={property.url}
             averageScore={property.averageScore}
             keywords={property.keywords}
+            availableDate={property.availableDate}
           />
         ))}
       </div>
