@@ -24,6 +24,20 @@ const nextConfig: NextConfig = {
     contentDispositionType: 'attachment',
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
+  async redirects() {
+    return [
+      {
+        source: "/en",
+        destination: "https://qrent.rent/",
+        permanent: true,
+      },
+      {
+        source: "/zh",
+        destination: "https://qrent.rent/",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
