@@ -10,7 +10,7 @@ export default function About() {
             <p className="text-lg text-slate-600 leading-relaxed mb-4">
               QRent is dedicated to simplifying the rental property search experience for students and young professionals.
               We understand that finding the perfect place to live can be overwhelming, time-consuming, and stressful.
-              That's why we've built a platform that aggregates rental listings, analyzes them with intelligent scoring,
+              That&apos;s why we&apos;ve built a platform that aggregates rental listings, analyzes them with intelligent scoring,
               and helps you make informed decisions quickly.
             </p>
             <p className="text-lg text-slate-600 leading-relaxed">
@@ -54,11 +54,11 @@ export default function About() {
             <p className="text-lg text-slate-600 leading-relaxed mb-4">
               QRent was born from personal experience. As students ourselves, we faced the challenges of finding quality,
               affordable housing while balancing studies and limited budgets. We realized that the rental market needed
-              a better solution—one that combines technology with genuine understanding of renters' needs.
+              a better solution—one that combines technology with genuine understanding of renters&apos; needs.
             </p>
             <p className="text-lg text-slate-600 leading-relaxed">
-              Today, we're proud to help thousands of renters find their ideal homes, making the process easier,
-              faster, and more transparent. We're constantly evolving our platform based on user feedback and
+              Today, we&apos;re proud to help thousands of renters find their ideal homes, making the process easier,
+              faster, and more transparent. We&apos;re constantly evolving our platform based on user feedback and
               market trends to serve you better.
             </p>
           </section>

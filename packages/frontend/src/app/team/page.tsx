@@ -3,13 +3,13 @@ export default function Team() {
     {
       name: 'Zhiyang Yu',
       role: '',
-      bio: 'Product visionary with a strong business background. Zhiyang drives QRent\'s strategic direction, ensuring the platform meets real market needs while building sustainable growth for the company.',
+      bio: 'Product visionary with a strong business background. Zhiyang drives QRent&apos;s strategic direction, ensuring the platform meets real market needs while building sustainable growth for the company.',
       expertise: 'Product Strategy, Business Development',
     },
     {
       name: 'Tianyang(Cliff) Chen',
       role: '',
-      bio: 'System architect and DevOps expert who designed QRent\'s scalable infrastructure. Cliff ensures seamless deployment pipelines and robust full-stack solutions that power our platform.',
+      bio: 'System architect and DevOps expert who designed QRent&apos;s scalable infrastructure. Cliff ensures seamless deployment pipelines and robust full-stack solutions that power our platform.',
       expertise: 'System Architecture, DevOps, Full Stack',
     },
     {
@@ -44,7 +44,7 @@ export default function Team() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-slate-900 mb-4">Meet Our Team</h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            We're a diverse group of developers, designers, and rental market enthusiasts working
+            We&apos;re a diverse group of developers, designers, and rental market enthusiasts working
             together to revolutionize the way people find their homes.
           </p>
         </div>
@@ -80,8 +80,8 @@ export default function Team() {
         <div className="mt-16 bg-blue-50 rounded-2xl p-8 border border-blue-100">
           <h2 className="text-2xl font-semibold text-slate-900 mb-4 text-center">Join Our Team</h2>
           <p className="text-slate-600 text-center max-w-2xl mx-auto mb-6">
-            We're always looking for passionate individuals who want to make a difference in the
-            rental market. If you're interested in joining QRent, we'd love to hear from you!
+            We&apos;re always looking for passionate individuals who want to make a difference in the
+            rental market. If you&apos;re interested in joining QRent, we&apos;d love to hear from you!
           </p>
           <div className="text-center">
             <a

@@ -71,7 +71,7 @@ export default function Header() {
                 />
               </Link>
               <Link href="/blog" className="hidden md:block text-slate-700 hover:text-blue-600 transition-colors font-bold">
-                Blog
+                Rental Blog
               </Link>
             </div>
 

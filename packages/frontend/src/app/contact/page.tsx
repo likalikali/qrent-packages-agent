@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { MdEmail, MdPhone, MdLocationOn } from 'react-icons/md';
+import { MdEmail, MdLocationOn } from 'react-icons/md';
 import { SiGithub, SiXiaohongshu } from 'react-icons/si';
 
 export default function Contact() {
@@ -37,7 +37,7 @@ export default function Contact() {
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-slate-900 mb-4">Get in Touch</h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-            Have questions, feedback, or just want to say hello? We'd love to hear from you.
+            Have questions, feedback, or just want to say hello? We&apos;d love to hear from you.
             Fill out the form below or reach out through any of our channels.
           </p>
         </div>
@@ -51,7 +51,7 @@ export default function Contact() {
               <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
                 <div className="text-green-600 text-5xl mb-4">✓</div>
                 <h3 className="text-xl font-semibold text-green-900 mb-2">Message Sent!</h3>
-                <p className="text-green-700">We'll get back to you as soon as possible.</p>
+                <p className="text-green-700">We&apos;ll get back to you as soon as possible.</p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-6">
