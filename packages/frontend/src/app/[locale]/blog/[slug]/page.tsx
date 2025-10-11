@@ -1,5 +1,5 @@
 import BlogPostContent from '@/components/BlogPostContent';
-import { getBlogPost, getBlogPosts } from '../../../../lib/blog';
+import { getBlogPost, getBlogPosts } from '@/lib/blog';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
@@ -11,9 +11,10 @@ import { notFound } from 'next/navigation';
 import Script from 'next/script';
 
 interface PageProps {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+    locale: string;
+  }>;
 }
 
 export async function generateStaticParams() {
@@ -24,7 +25,7 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getBlogPost(slug);
 
   if (!post) {
@@ -54,7 +55,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 }
 
 export default async function BlogPostPage({ params }: PageProps) {
-  const { slug } = params;
+  const { slug } = await params;
   const post = await getBlogPost(slug);
 
   if (!post) {

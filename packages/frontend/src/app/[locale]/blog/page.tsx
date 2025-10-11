@@ -1,5 +1,5 @@
 import BlogContent from '@/components/BlogContent';
-import { getBlogPosts, type BlogPost } from '../../../lib/blog';
+import { getBlogPosts, type BlogPost } from '@/lib/blog';
 
 // Temporary stub image URLs
 const BLOG_IMAGE_URLS = [

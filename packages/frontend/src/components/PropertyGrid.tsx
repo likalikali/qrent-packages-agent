@@ -9,11 +9,6 @@ import PropertyCard from './PropertyCard';
 import Section from './Section';
 
 
-type PropertiesData =
-  | NonNullable<Awaited<ReturnType<ReturnType<typeof useTRPCClient>['properties']['search']['query']>>>
-  | undefined;
-type Property = PropertiesData extends { properties: (infer P)[] } ? P : any;
-
 export default function PropertyGrid() {
   const t = useTranslations('PropertyGrid');
   const [selectedUniversity, setSelectedUniversity] = useState(SCHOOL.UNSW);
@@ -115,21 +110,21 @@ export default function PropertyGrid() {
   return (
     <Section title={sectionTitle}>
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {properties.map((property: Property) => (
+        {properties.map((property) => (
           <PropertyCard
-            key={property.id}
-            address={property.address}
-            region={property.region || ''}
-            price={property.price}
-            bedroomCount={property.bedroomCount}
-            bathroomCount={property.bathroomCount}
-            propertyType={property.propertyType}
-            descriptionEn={property.descriptionEn || ''}
-            commuteTime={property.commuteTime ?? undefined}
-            url={property.url}
-            averageScore={property.averageScore}
-            keywords={property.keywords}
-            availableDate={property.availableDate}
+            key={property.id as string | number}
+            address={property.address as string}
+            region={(property.region as string) || ''}
+            price={property.price as number}
+            bedroomCount={property.bedroomCount as number}
+            bathroomCount={property.bathroomCount as number}
+            propertyType={property.propertyType as number}
+            descriptionEn={(property.description as string) || ''}
+            commuteTime={(property.commuteTime as number) ?? undefined}
+            url={property.url as string}
+            averageScore={property.averageScore as number}
+            keywords={property.keywords as string}
+            availableDate={property.availableDate as string}
           />
         ))}
       </div>

@@ -11,7 +11,7 @@ interface BlogPost {
   titleEn: string;
   datePublished: string;
   keywords: string[];
-  schema: any;
+  schema: Record<string, unknown>;
   content: string;
   excerpt: string;
 }

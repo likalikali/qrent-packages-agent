@@ -1,7 +1,7 @@
 'use client';
 
-import BlogPostCard from './BlogPostCard';
 import { useLocale, useTranslations } from 'next-intl';
+import BlogPostCard from './BlogPostCard';
 
 interface BlogPost {
   slug: string;
@@ -9,7 +9,7 @@ interface BlogPost {
   titleEn: string; // 英文标题
   datePublished: string;
   keywords: string[];
-  schema: any;
+  schema: Record<string, unknown>;
   content: string;
   excerpt: string;
   imageUrl: string;

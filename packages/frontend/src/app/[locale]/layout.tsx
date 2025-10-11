@@ -1,7 +1,7 @@
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import LocaleUpdater from '@/components/LocaleUpdater';
-import { locales } from '@/i18n';
+import { locales, type Locale } from '@/i18n';
 import { AuthProvider } from '@/lib/auth-context';
 import AppTRPCProvider from '@/lib/trpc-provider';
 import { NextIntlClientProvider } from 'next-intl';
@@ -24,7 +24,7 @@ export default async function LocaleLayout({
   const { locale } = await params;
 
   // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale as any)) notFound();
+  if (!locales.includes(locale as Locale)) notFound();
 
   // Providing all messages to the client
   // side is the easiest way to get started

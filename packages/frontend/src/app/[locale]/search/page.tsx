@@ -1,5 +1,3 @@
-'use client';
-
 import FilterModal from '@/components/FilterModal';
 import SearchBar from '@/components/SearchBar';
 import SearchResults from './SearchResults';
@@ -10,7 +8,7 @@ type SearchParams = {
 }
 
 export default async function SearchPage({ searchParams }: { searchParams: Promise<SearchParams> }) {
-  const params = await searchParams
+  const params = await searchParams;
 
   return (
     <main>
