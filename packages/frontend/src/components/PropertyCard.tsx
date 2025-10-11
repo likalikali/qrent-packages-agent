@@ -117,27 +117,33 @@ export default function PropertyCard({
         ${price.toLocaleString()}
         <span className="text-sm text-slate-500 font-normal">{t('perWeek')}</span>
       </p>
-      <div className="mt-2 flex items-center flex-wrap gap-2 text-sm text-slate-600">
-        {bedroomCount && (
-          <span className="flex items-center gap-1">
-            <IoBed className="w-4 h-4" />
-            {bedroomCount}
+      <div className="mt-2 space-y-2">
+        {/* 第一行：卧室和浴室信息 */}
+        <div className="flex items-center gap-2 text-sm text-slate-600">
+          {bedroomCount && (
+            <span className="flex items-center gap-1">
+              <IoBed className="w-4 h-4" />
+              {bedroomCount}
+            </span>
+          )}
+          {bathroomCount && (
+            <span className="flex items-center gap-1">
+              <FaBath className="w-4 h-4" />
+              {bathroomCount}
+            </span>
+          )}
+        </div>
+        {/* 第二行：公寓类型和可入住时间 */}
+        <div className="flex items-center gap-2">
+          <span className="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap">
+            {propertyTypeName}
           </span>
-        )}
-        {bathroomCount && (
-          <span className="flex items-center gap-1">
-            <FaBath className="w-4 h-4" />
-            {bathroomCount}
-          </span>
-        )}
-        <span className="bg-blue-100 text-blue-800 px-2.5 py-1 rounded-full text-xs font-medium whitespace-nowrap">
-          {propertyTypeName}
-        </span>
-        {availableDate && formatAvailableDate(availableDate) && (
-          <span className="bg-green-100 text-green-700 px-2.5 py-1 rounded-full text-xs font-medium border border-green-200 whitespace-nowrap">
-            {formatAvailableDate(availableDate)}
-          </span>
-        )}
+          {availableDate && formatAvailableDate(availableDate) && (
+            <span className="bg-green-100 text-green-700 px-2.5 py-1 rounded-full text-xs font-medium border border-green-200 whitespace-nowrap">
+              {formatAvailableDate(availableDate)}
+            </span>
+          )}
+        </div>
       </div>
       {commuteTime !== undefined && (
         <p className="mt-1 text-sm text-slate-500">{commuteTime} {t('minToUniversity')}</p>
