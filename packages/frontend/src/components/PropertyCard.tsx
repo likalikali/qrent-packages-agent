@@ -63,12 +63,6 @@ export default function PropertyCard({
     return 'bg-orange-400 text-white';
   };
 
-  const translateKeyword = (keyword: string): string => {
-    const lowercaseKeyword = keyword.toLowerCase();
-    // Try to get translation from the keywords object
-    const keywordTranslations = t.raw('keywords') as Record<string, string>;
-    return keywordTranslations[lowercaseKeyword] || keyword;
-  };
 
   const formatAvailableDate = (date: string | null | undefined): string | null => {
     if (date === null || date === undefined) {
@@ -154,7 +148,7 @@ export default function PropertyCard({
         <div className="mt-2 flex flex-wrap gap-1">
           {keywordList.map((keyword, index) => (
             <span key={index} className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full whitespace-nowrap">
-              {translateKeyword(keyword)}
+              {keyword}
             </span>
           ))}
         </div>
