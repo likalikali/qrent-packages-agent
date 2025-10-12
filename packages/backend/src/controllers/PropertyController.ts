@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
 import { propertyService } from '@/services/PropertyService';
 import { Preference } from '@qrent/shared';
+import { NextFunction, Request, Response } from 'express';
 import _ from 'lodash';
 
 export class PropertyController {
@@ -22,7 +22,22 @@ export class PropertyController {
 
   async getSubscriptions(req: Request, res: Response, next: NextFunction) {
     const userId = req.user!.userId;
-    const result = await propertyService.fetchSubscriptions(userId);
+
+    // Extract locale from headers, similar to tRPC context
+    const localeHeader = req.headers['x-locale'] as string;
+    const acceptLanguage = req.headers['accept-language'];
+
+    let locale = 'en'; // default
+    if (localeHeader && ['en', 'zh'].includes(localeHeader)) {
+      locale = localeHeader;
+    } else if (acceptLanguage) {
+      const preferredLocale = acceptLanguage.split(',')[0]?.split('-')[0];
+      if (preferredLocale && ['en', 'zh'].includes(preferredLocale)) {
+        locale = preferredLocale;
+      }
+    }
+
+    const result = await propertyService.fetchSubscriptions(userId, locale);
 
     res.json(result);
   }
