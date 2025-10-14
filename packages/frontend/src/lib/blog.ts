@@ -1,7 +1,10 @@
-import fs from 'fs/promises';
-import path from 'path';
-import matter from 'gray-matter';
 import type { BlogPost } from '@/types/blog';
+import fs from 'fs/promises';
+import matter from 'gray-matter';
+import path from 'path';
+
+// Re-export the BlogPost type for convenience
+export type { BlogPost } from '@/types/blog';
 
 const postsDirectory = path.join(process.cwd(), 'public/blog-posts');
 

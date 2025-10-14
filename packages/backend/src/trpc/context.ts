@@ -2,7 +2,7 @@ import type { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import type { TrpcContext } from './trpc';
 import { LOCALE } from '@qrent/shared/enum';
-import { isLocale } from '@/utils/helper';
+import { isLocale } from '@qrent/shared/utils/helper';
 
 export async function createTRPCContext({
   req,
