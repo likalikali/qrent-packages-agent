@@ -103,7 +103,7 @@ export default function PropertyGrid() {
     );
   }
 
-  const properties = data?.properties || [];
+  const properties = data?.properties.sort((a, b) => b.averageScore - a.averageScore) || [];
 
   return (
     <Section title={sectionTitle}>
