@@ -1,6 +1,7 @@
 import { NextFunction, Request, RequestHandler, Response } from 'express';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import HttpError from '@/error/HttpError';
+import { LOCALE } from '@qrent/shared/enum';
 
 // Extend Express Request interface to include user property
 declare global {
@@ -106,4 +107,9 @@ export function generateToken(userId: number): string {
   }
 
   return jwt.sign({ userId }, secret, { expiresIn: '90d' });
+}
+
+export function isLocale(value: unknown): value is LOCALE {
+  // Object.values(LOCALE) 会返回 ['en', 'zh'] 这样的数组
+  return Object.values(LOCALE).includes(value as LOCALE);
 }
