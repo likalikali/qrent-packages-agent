@@ -52,9 +52,9 @@ export default function PropertyGrid() {
   };
 
   const sectionTitle = (
-    <div className="flex items-center gap-3">
-      <span>{t('dailyNewHouses')}</span>
-      <div className="flex rounded-lg border border-slate-200 bg-slate-50">
+    <div className="flex flex-wrap justify-center items-center gap-3">
+      <span className="flex-shrink-0">{t('dailyNewHouses')}</span>
+      <div className="flex flex-wrap rounded-lg border border-slate-200 bg-slate-50">
         {Object.values(SCHOOL).map(school => (
           <button
             key={school}
