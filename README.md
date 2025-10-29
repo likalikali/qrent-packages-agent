@@ -132,4 +132,9 @@ We follow the [Conventional Commits](https://www.conventionalcommits.org/) speci
 Each commit message consists of a **header**, a **body**, and a **footer**:
 
     
+## License
+
+This repository is provided under a Non-Commercial License (NCL 1.0). You may use, copy, modify, and distribute the code for non-commercial purposes. Any commercial use requires a separate commercial license from the maintainers. See `LICENSE` for details.
+
+注意：该许可限制商业使用，因此不符合 OSI 的“开源”定义；本项目以“源代码可用（非商业）”的方式发布。若需商业授权，请联系仓库维护者。
 
