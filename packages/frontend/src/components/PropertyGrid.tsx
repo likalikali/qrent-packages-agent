@@ -125,6 +125,7 @@ export default function PropertyGrid() {
             keywords={property.keywords}
             availableDate={property.availableDate}
             publishedAt={property.publishedAt}
+            thumbnailUrl={property.thumbnailUrl}
           />
         ))}
       </div>
