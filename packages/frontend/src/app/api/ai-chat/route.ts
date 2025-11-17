@@ -1,4 +1,4 @@
-import { GoogleGenAI } from '@google/genai';
+import { GoogleGenAI, ListModelsResponse, Models } from '@google/genai';
 import { NextRequest, NextResponse } from 'next/server';
 
 interface Message {
@@ -38,19 +38,33 @@ ${conversationHistory ? `Previous conversation:\n${conversationHistory}\n\n` : '
 
 Please provide a helpful and friendly response:`;
 
-    // Generate response (using default model to avoid rate limits)
-    const result = await genAI.models.generateContent({
-      model: 'gemini-2.5-flash',
-      contents: prompt,
-    });
-    const aiResponse = result.text;
+    const models = [
+      'gemini-2.5-flash',
+      'gemini-2.5-flash-lite',
+      'gemini-2.0-flash',
+      'gemini-2.0-flash-lite',
+      'gemini-2.0-flash-001',
+      'gemini-2.0-flash-lite-001',
+      'gemini-2.0-flash-exp',
+      'learnlm-2.0-flash-experimental',
+    ];
 
-    if (!aiResponse) {
-      console.error('No response generated from Gemini');
-      return NextResponse.json({ error: 'Failed to generate AI response' }, { status: 500 });
+    for (const model of models) {
+      try {
+        const result = await genAI.models.generateContent({
+          model: model,
+          contents: prompt,
+        });
+        const aiResponse = result.text;
+        if (aiResponse) {
+          return NextResponse.json({ message: aiResponse });
+        }
+      } catch (error) {
+        console.warn(`Model ${model} failed:`, error);
+        // Try the next model
+      }
     }
-
-    return NextResponse.json({ message: aiResponse });
+    throw new Error('All models failed to generate a response');
   } catch (error) {
     console.error('AI Chat Error:', error);
     return NextResponse.json({ error: 'Failed to generate AI response' }, { status: 500 });
