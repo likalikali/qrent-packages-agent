@@ -34,10 +34,17 @@ interface AIChatState {
   setLoading: (isLoading: boolean) => void;
 }
 
+// Detect if device is mobile based on screen width
+// Default to false (desktop, open) during SSR
+const getInitialChatboxOpenState = () => {
+  if (typeof window === 'undefined') return true; // SSR default to desktop (open)
+  return window.innerWidth >= 768; // Open on desktop (md breakpoint), closed on mobile
+};
+
 export const useAIChatStore = create<AIChatState>(set => ({
   // Initial state
-  isOpen: true,
-  width: 30, // 30% of screen width
+  isOpen: getInitialChatboxOpenState(),
+  width: 17, // 17% of screen width
   messages: [WELCOME_MESSAGE],
   isLoading: false,
 
