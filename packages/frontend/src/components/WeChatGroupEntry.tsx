@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { RiWechatFill } from 'react-icons/ri';
 import { cn } from '@/lib/utils';
+import { useAIChatStore } from '@/lib/ai-chat-store';
 import { Button } from './ui/button';
 
 export function WeChatGroupEntry() {
@@ -16,7 +17,8 @@ export function WeChatGroupEntry() {
   // 只在首页显示
   const isHomePage = pathname === '/' || /^\/[a-z]{2}$/.test(pathname);
 
-  if (!isHomePage) return null;
+  // 当AI聊天框打开时隐藏
+  if (!isHomePage || isAIChatOpen) return null;
 
   return (
     <div
