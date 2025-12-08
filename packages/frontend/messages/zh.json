@@ -294,5 +294,12 @@
       "beach": "海滩",
       "elegance": "优雅"
     }
+  },
+  "WeChatGroupEntry": {
+    "title": "租房社群",
+    "description": "扫码进群即可免费领取全流程租房手册",
+    "note": "进群请备注: 学校",
+    "instruction": "长按识别二维码加入社群",
+    "ariaLabel": "租房社群"
   }
 }
