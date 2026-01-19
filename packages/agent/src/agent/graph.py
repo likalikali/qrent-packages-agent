@@ -10,7 +10,7 @@ from langgraph.graph import StateGraph, END
 from langgraph.runtime import Runtime
 from langgraph.graph.message import add_messages
 
-from langchain_core.messages import BaseMessage, SystemMessage, ToolMessage
+from langchain_core.messages import AIMessage, BaseMessage, SystemMessage, ToolMessage
 from langchain_openai import ChatOpenAI
 
 from src.config.tool_dir import ALL_TOOLS, TOOLS_BY_NAME
@@ -47,6 +47,7 @@ class Context(TypedDict):
 class State:
     messages: Annotated[Sequence[BaseMessage], add_messages]
     retrieved_context: str = ""
+    rag_final: bool = False
 
 # ===== Nodes =====
 def to_text(content: Any) -> str:
@@ -86,19 +87,9 @@ async def retrieval_node(state: State, runtime: Runtime[Context]) -> Dict[str, A
         ctx = f"(Retrieval Error: {type(e).__name__}: {e})"
 
     if not ctx:
-        return {}
+        return {"rag_final": False, "retrieved_context": ""}
 
-    return {
-        "messages": [
-            SystemMessage(
-                content=(
-                    "[RAG]\n"
-                    "Reference knowledge (use if relevant; do not fabricate beyond this):\n\n"
-                    f"{ctx}"
-                )
-            )
-        ]
-    }
+    return {"messages": [AIMessage(content=ctx)], "rag_final": True}
 
 
 async def agent_node(state: State, runtime: Runtime[Context]) -> Dict[str, Any]:
@@ -210,6 +201,10 @@ def should_continue(state: State) -> bool:
     return bool(tool_calls)
 
 
+def should_skip_agent(state: State) -> bool:
+    return bool(state.rag_final)
+
+
 # ===== Graph =====
 graph = (
     StateGraph(State, context_schema=Context)
@@ -217,7 +212,7 @@ graph = (
     .add_node("agent", agent_node)
     .add_node("tool", tool_node)
     .set_entry_point("retrieval")            
-    .add_edge("retrieval", "agent")         
+    .add_conditional_edges("retrieval", should_skip_agent, {True: END, False: "agent"})
     .add_conditional_edges("agent", should_continue, {True: "tool", False: END})
     .add_edge("tool", "agent")
     .compile(name="Qrent AI Agent")

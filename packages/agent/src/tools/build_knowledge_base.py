@@ -219,6 +219,7 @@ def load_notion_documents() -> List[Document]:
                             "source": "notion",
                             "database_id": database_id,
                             "notion_page_id": page_id,
+                            "title": title,
                             "url": page.get("url"),
                             "last_edited_time": page.get("last_edited_time"),
                         },
